@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Svar på invitasjonen · Vilde & Håvard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ========================================
+         NAVIGASJON
+         ======================================== -->
+
+    <nav>
+        <a href="index.html">Hjem</a>
+        <a href="index.html#informasjon">Informasjon</a>
+        <a href="index.html#program">Program</a>
+        <a href="index.html#overnatting">Overnatting</a>
+        <a href="rsvp.html" class="nav-rsvp">Svar på invitasjonen</a>
+    </nav>
+
+
+    <!-- ========================================
+         RSVP-SIDE
+         ======================================== -->
+
+    <main class="rsvp-side">
+
+        <p class="rsvp-intro">Vilde & Håvard · 3. juli 2027</p>
+
+        <h1>Svar på invitasjonen</h1>
+
+        <p class="rsvp-tekst">
+            Vi håper du har anledning til å feire dagen sammen med oss.
+            Fyll ut skjemaet nedenfor for å gi oss beskjed.
+        </p>
+
+
+       <!-- ========================================
+     RSVP-SKJEMA
+     ======================================== -->
+
+<form class="rsvp-skjema">
+
+    <label for="svarer-navn">Ditt navn</label>
+
+    <input
+        type="text"
+        id="svarer-navn"
+        name="svarer-navn"
+        required
+    >
+
+
+    <label for="antall-personer">
+        Hvor mange svarer du for?
+    </label>
+
+    <select
+        id="antall-personer"
+        name="antall-personer"
+        required
+    >
+        <option value="1">1 person</option>
+        <option value="2">2 personer</option>
+        <option value="3">3 personer</option>
+        <option value="4">4 personer</option>
+        <option value="5">5 personer</option>
+        <option value="6">6 personer</option>
+    </select>
+
+
+    <!-- ========================================
+         PERSONER LEGGES INN HER MED JAVASCRIPT
+         ======================================== -->
+
+    <div id="personer-container"></div>
+
+
+    <label for="allergier">
+        Allergier eller andre mathensyn
+    </label>
+
+    <textarea
+        id="allergier"
+        name="allergier"
+        rows="3"
+    ></textarea>
+
+
+    <label for="melding">
+        Noe annet vi bør vite?
+    </label>
+
+    <textarea
+        id="melding"
+        name="melding"
+        rows="4"
+    ></textarea>
+
+
+    <button type="submit">
+        Send svar
+    </button>
+
+</form>
+
+
+<!-- ========================================
+     JAVASCRIPT FOR ANTALL PERSONER
+     ======================================== -->
+
+<script>
+    const antallPersoner = document.querySelector("#antall-personer");
+    const personerContainer = document.querySelector("#personer-container");
+
+    function lagPersonfelt() {
+
+        personerContainer.innerHTML = "";
+
+        const antall = Number(antallPersoner.value);
+
+        for (let i = 1; i <= antall; i++) {
+
+            const person = document.createElement("div");
+
+            person.classList.add("rsvp-person");
+
+            person.innerHTML = `
+                <h2>Person ${i}</h2>
+
+                <label for="person-${i}-navn">
+                    Navn
+                </label>
+
+                <input
+                    type="text"
+                    id="person-${i}-navn"
+                    name="person-${i}-navn"
+                    required
+                >
+
+                <div class="rsvp-valg">
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="person-${i}-svar"
+                            value="Bare lørdag (bryllup) "
+                            required
+                        >
+                        Bare lørdag (bryllup)
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="person-${i}-svar"
+                            value="Fredag (chill&grill) og lørdag (bryllup)"
+                            required
+                        >
+                        Fredag(chill&grill) og lørdag(bryllup) 
+                    </label>
+
+                </div>
+            `;
+
+            personerContainer.appendChild(person);
+        }
+    }
+
+    antallPersoner.addEventListener("change", lagPersonfelt);
+
+    lagPersonfelt();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL = "https://cxqobweieykujztyvobz.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_RGIhbcP0XcSkPUONHM4XnQ_FFQBVxEp";
+
+    const db = supabase.createClient(https://cxqobweieykujztyvobz.supabase.co, sb_publishable_RGIhbcP0XcSkPUONHM4XnQ_FFQBVxEp);
+</script>
+
+</body>
+</html>

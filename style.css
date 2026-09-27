@@ -1,0 +1,408 @@
+/* ========================================
+   GRUNNLEGGENDE DESIGN
+   ======================================== */
+
+html {
+    scroll-behavior: smooth;
+
+    /* Gjør at seksjonsoverskrifter ikke havner
+       bak menyen når man trykker på en menylenke */
+    scroll-padding-top: 180px;
+}
+
+body {
+    margin: 0;
+
+    background-color: #ebe7e2;
+    color: #3f493f;
+
+    font-family: "Cormorant Garamond", serif;
+}
+
+
+/* ========================================
+   NAVIGASJON / MENY
+   ======================================== */
+
+nav {
+    position: sticky;
+    top: 0;
+
+    text-align: center;
+    padding: 18px 0;
+
+    background-color: #ebe7e2;
+
+    z-index: 200;
+}
+
+nav a {
+    color: #596859;
+    text-decoration: none;
+
+    margin: 0 20px;
+
+    font-size: 14px;
+    letter-spacing: 1px;
+
+    font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
+}
+
+
+/* ========================================
+   FORSIDE / HERO
+   ======================================== */
+
+.hero {
+    min-height: 70vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    text-align: center;
+}
+
+
+/* ========================================
+   BOTANISK BAKGRUNNSBILDE
+   ======================================== */
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image: url("images/botanical.png");
+    background-repeat: no-repeat;
+    background-position: center -20px;
+    background-size: 100% 100%;
+
+    opacity: var(--background-opacity, 1);
+
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+/* ========================================
+   HERO-TEKST
+   ======================================== */
+
+.hero-innhold {
+    position: relative;
+
+    width: 100%;
+
+    text-align: center;
+
+    z-index: 5;
+}
+
+
+/* ========================================
+   BAKGRUNN NÅR HERO-TEKSTEN HAR STOPPET
+   ======================================== */
+
+.hero-innhold.festet {
+    background-color: #ebe7e2;
+}
+
+
+/* ========================================
+   DEKKER INNHOLD SOM SCROLLER BAK
+   OVERSKRIFT, DATO OG RSVP
+   ======================================== */
+
+.hero-innhold.festet::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: -40px;
+    bottom: -45px;
+
+    background-color: #ebe7e2;
+
+    z-index: -1;
+}
+
+.hero-innhold.festet {
+    background-color: #ebe7e2;
+    isolation: isolate;
+}
+
+
+/* ========================================
+   "VI SKAL GIFTE OSS"
+   ======================================== */
+
+.intro {
+    margin-top: 5px;
+    margin-bottom: 15px;
+
+    font-size: 18px;
+    font-style: italic;
+
+    opacity: 1;
+}
+
+
+/* ========================================
+   VILDE & HÅVARD
+   ======================================== */
+
+h1 {
+    margin: 0;
+
+    font-size: 72px;
+    font-weight: normal;
+
+    letter-spacing: 2px;
+    line-height: 0.95;
+}
+
+h1 span {
+    color: #7d907b;
+    font-style: italic;
+}
+
+
+/* ========================================
+   DATO OG STED
+   ======================================== */
+
+.dato {
+    margin-top: 25px;
+    margin-bottom: 15;
+
+    font-size: 10px;
+    letter-spacing: 4px;
+
+    font-family: "Montserrat", sans-serif;
+}
+
+/* ========================================
+   RSVP-KNAPPER
+   ======================================== */
+
+.hero-rsvp {
+    margin: 0;
+    text-align: center;
+    z-index: 101;
+}
+
+.hero-rsvp a,
+nav a.nav-rsvp {
+    display: inline-block;
+
+    color: #7d907b;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    text-decoration: none;
+
+    border: 3px solid #7d907b;
+    padding: 2px 8px;
+}
+
+
+/* ========================================
+   VANLIGE SEKSJONER
+   ======================================== */
+
+section {
+    max-width: 700px;
+
+    margin: 0 auto;
+    padding: 80px 30px;
+
+    text-align: center;
+}
+
+h2 {
+    margin-top: 0;
+
+    font-size: 36px;
+    font-weight: normal;
+}
+
+
+/* ========================================
+   RSVP-SIDE
+   ======================================== */
+
+.rsvp-side {
+    max-width: 620px;
+
+    margin: 0 auto;
+    padding: 80px 30px 120px;
+
+    text-align: center;
+    background-color: #ebe7e2;
+}
+
+.rsvp-intro {
+    margin-bottom: 12px;
+
+    color: #7d907b;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.rsvp-side h1 {
+    margin-bottom: 20px;
+
+    font-size: 54px;
+    line-height: 1;
+}
+
+.rsvp-tekst {
+    max-width: 500px;
+
+    margin: 0 auto 45px;
+
+    font-size: 19px;
+    line-height: 1.5;
+}
+
+
+/* ========================================
+   RSVP-SKJEMA
+   ======================================== */
+
+.rsvp-skjema {
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+}
+
+.rsvp-skjema label {
+    margin-top: 22px;
+    margin-bottom: 7px;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    color: #596859;
+}
+
+.rsvp-skjema input,
+.rsvp-skjema select,
+.rsvp-skjema textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    background-color: transparent;
+
+    border: 1px solid #aab4a7;
+
+    color: #3f493f;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+}
+
+.rsvp-skjema textarea {
+    resize: vertical;
+}
+
+.rsvp-skjema input:focus,
+.rsvp-skjema select:focus,
+.rsvp-skjema textarea:focus {
+    outline: none;
+    border-color: #7d907b;
+}
+
+
+/* ========================================
+   SEND SVAR-KNAPP
+   ======================================== */
+
+.rsvp-skjema button {
+    align-self: center;
+
+    margin-top: 35px;
+
+    padding: 9px 22px;
+
+    background-color: transparent;
+
+    color: #7d907b;
+
+    border: 2px solid #7d907b;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+}
+
+/* ========================================
+   PERSONER I RSVP-SKJEMAET
+   ======================================== */
+
+.rsvp-person {
+    margin-top: 30px;
+    padding-top: 25px;
+
+    border-top: 1px solid #d8ddd5;
+}
+
+.rsvp-person h2 {
+    margin-bottom: 10px;
+
+    font-size: 24px;
+}
+
+.rsvp-valg {
+    display: flex;
+    gap: 25px;
+
+    margin-top: 12px;
+}
+
+.rsvp-valg label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin: 0;
+
+    text-transform: none;
+    letter-spacing: 0;
+
+    font-size: 14px;
+}
+
+.rsvp-valg input {
+    width: auto;
+}
+
+/* ========================================
+   BAKGRUNN PÅ RSVP-SIDEN
+   ======================================== */
+
+body:has(.rsvp-side) {
+    background-color: #ebe7e2;
+}
