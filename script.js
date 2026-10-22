@@ -1,5 +1,5 @@
 /* ========================================
-   ELEMENTER
+  1. ELEMENTENE PÅ NETTSIDEN
    ======================================== */
 
 const hero = document.querySelector(".hero");
@@ -9,264 +9,387 @@ const title = heroContent.querySelector("h1");
 const date = document.querySelector(".dato");
 const nav = document.querySelector("nav");
 const rsvpLink = document.querySelector(".hero-rsvp");
-
-    
-
-/* ========================================
-   INNSTILLINGER
-   ======================================== */
-
-/* Avstand mellom navigasjonen og overskriften */
-
-const stopGap = 18;
-
-
-/* Hvor langt man scroller mens
-   teksten trekker seg sammen */
-
-const effectDistance = 300;
+const botanicalTop = document.querySelector(".botanical-top");
+const botanicalBottom = document.querySelector(".botanical-bottom");
 
 
 /* ========================================
-   STARTVERDIER
+  2. SCROLL-INNSTILLINGER
    ======================================== */
 
-let startTop;
-let heroBottom;
-let introHeight;
-let rsvpStartTop;
+const stopGap = 18; /* Mellomrom mellom hero og menyen ETTER SCROLL */ 
+const effectDistance = 150;
+
 
 
 /* ========================================
-   FINN STARTPOSISJONER
+   3. STARTVARIABLER - får verdi senere
    ======================================== */
 
-function finnStartposisjon() {
-
-    const heroRect = hero.getBoundingClientRect();
-
-    const heroTop =
-        heroRect.top + window.scrollY;
-
-    startTop =
-        heroTop +
-        (hero.offsetHeight - heroContent.offsetHeight) / 2;
-
-    heroBottom =
-        heroTop + hero.offsetHeight;
-    
-    /* ========================================
-   RSVP STARTER UNDER BOTANICAL-RAMMEN
-   ======================================== */
-
-    rsvpStartTop =
-        heroBottom + 25;
-
-    introHeight =
-        intro.offsetHeight;
-}
+    let desktopStartTop;
+    let mobilStartTop;
+    let heroBottom; /* Hvor bunnen av Hero-seksjonen ligger */
+    let introHeight; /* Høyden på "Vi skal gifte oss!" */
+    let rsvpStartTop;/* Startposisjon RSVP knapp */
+    let bottomStartTop;/* Bunnblader startposisjon */
 
 
 /* ========================================
-   KLARGJØR HERO-TEKSTEN
+   4. BEREGNING AV STARTPOSISJONER OG STØRRELSER
    ======================================== */
 
-function klargjorHeroTekst() {
+    function finnStartposisjon() {
 
-    finnStartposisjon();
+    /* Hero-seksjonens plassering på siden */
+        const heroRect = hero.getBoundingClientRect();
 
-    heroContent.style.position = "fixed";
-    heroContent.style.left = "50%";
-    heroContent.style.transform = "translateX(-50%)";
-    heroContent.style.width = "100%";
-    heroContent.style.zIndex = "100";
-
-    /* ========================================
-   KLARGJØR RSVP-LENKEN
-   ======================================== */
-
-    rsvpLink.style.position = "fixed";
-    rsvpLink.style.left = "50%";
-    rsvpLink.style.transform = "translateX(-50%)";
-    rsvpLink.style.width = "100%";
-    rsvpLink.style.zIndex = "101";
-}
+        const heroTop =
+            heroRect.top + window.scrollY;
 
 
-/* ========================================
-   SCROLL-EFFEKT
-   ======================================== */
-
-function oppdaterScroll() {
-
-    const scrollPosition =
-        window.scrollY;
+   /* Desktop: startposisjon for hero-teksten */
+        desktopStartTop =
+            heroTop + hero.offsetHeight * 0.20;
 
 
-    const progress =
-        Math.min(
-            scrollPosition / effectDistance,
-            1
-        );
-    
-
-    /* ========================================
-       POSISJON UNDER NAVIGASJONEN
-       ======================================== */
-
-    const stopTop =
-        nav.offsetHeight + stopGap;
+    /* Mobil: startposisjon for hero-teksten */
+        mobilStartTop =
+            heroTop + 40;
 
 
-    /* ========================================
-       NATURLIG POSISJON NÅR SIDEN SCROLLER
-       ======================================== */
-
-    const naturalTop =
-        startTop - scrollPosition;
+    /* Hvor bunnen av hero-seksjonen ligger */
+        heroBottom =
+            heroTop + hero.offsetHeight;
 
 
-    /* ========================================
-   OVERSKRIFTEN STOPPER UNDER MENYEN
-   OG BLIR VÆRENDE DER
-   ======================================== */
-
-const currentTop =
-    Math.max(stopTop, naturalTop);
+    /* Høyden på "Vi skal gifte oss" */
+        introHeight =
+            intro.offsetHeight + 5;
 
 
-    heroContent.style.top =
-        `${currentTop}px`;
+    /* Opprinnelig startposisjon for bunnbladene */
+        bottomStartTop =
+            botanicalBottom.getBoundingClientRect().top +
+            window.scrollY;
 
 
-    /* ========================================
-       FINN UT OM OVERSKRIFTEN ER FESTET
-       ======================================== */
-
-   const isFestet =
-    naturalTop <= stopTop;
-
-
-    if (isFestet) {
-
-        heroContent.classList.add("festet");
-
-    } else {
-
-        heroContent.classList.remove("festet");
-
+    /* Opprinnelig startposisjon for RSVP */
+        rsvpStartTop =
+            heroBottom + 25;
     }
 
 
-    /* ========================================
-       BOTANISK RAMME FADER UT
-       ======================================== */
-
-    hero.style.setProperty(
-        "--background-opacity",
-        1 - progress
-    );
-
 /* ========================================
-   RSVP-LENKEN STARTER UNDER BLADENE
-   OG TREKKES GRADVIS OPP MOT DATOEN
+   5A. KLARGJØR HERO - MOBIL
    ======================================== */
 
-/* Der RSVP naturlig ville vært mens siden scroller */
-const rsvpNaturalTop =
-    rsvpStartTop - scrollPosition;
+    function klargjorMobilHero() {
+
+        finnStartposisjon();
+
+        /* Mobil: hero-tekst */
+        heroContent.style.position = "fixed";
+        heroContent.style.left = "50%";
+        heroContent.style.transform = "translateX(-50%)";
+        heroContent.style.width = "100%";
+        heroContent.style.zIndex = "100";
+        heroContent.style.top = `${mobilStartTop}px`;
 
 
-/* Der RSVP skal ende:
-   rett under den faste hero-teksten */
-const rsvpTargetTop =
-    currentTop +
-    heroContent.offsetHeight +
-    6;
+        /* Mobil: bunnblader */
+        botanicalBottom.style.position = "fixed";
+        botanicalBottom.style.left = "50%";
+        botanicalBottom.style.top = `${bottomStartTop}px`;
+        botanicalBottom.style.bottom = "auto";
+        botanicalBottom.style.transform = "translateX(-50%)";
+        botanicalBottom.style.zIndex = "99";
 
 
-/* Flytt gradvis fra startposisjonen
-   til plassen rett under datoen */
-const rsvpTop =
-    rsvpNaturalTop +
-    (rsvpTargetTop - rsvpNaturalTop) * progress;
-
-rsvpLink.style.top =
-    `${rsvpTop}px`;
-
-    /* ========================================
-       "VI SKAL GIFTE OSS" FADER UT
-       ======================================== */
-
-    const introProgress =
-        Math.min(progress * 2, 1);
+        /* Mobil: RSVP */
+        rsvpLink.style.position = "fixed";
+        rsvpLink.style.left = "50%";
+        rsvpLink.style.transform = "translateX(-50%)";
+        rsvpLink.style.width = "100%";
+        rsvpLink.style.zIndex = "101";
+        rsvpLink.style.top = `${rsvpStartTop}px`;
+    }
 
 
-    intro.style.opacity =
-        1 - introProgress;
+/* ========================================
+   5B. KLARGJØR HERO - DESKTOP
+   ======================================== */
+
+    function klargjorDesktopHero() {
+
+        finnStartposisjon();
+
+        /* Desktop: hero-tekst */
+        heroContent.style.position = "fixed";
+        heroContent.style.left = "50%";
+        heroContent.style.transform = "translateX(-50%)";
+        heroContent.style.width = "100%";
+        heroContent.style.zIndex = "100";
+        heroContent.style.top = `${desktopStartTop}px`;
 
 
-    /* ========================================
-       "VI SKAL GIFTE OSS" KOLLAPSER
-       ======================================== */
-
-    intro.style.height =
-        `${introHeight * (1 - introProgress)}px`;
-
-    intro.style.marginBottom =
-        `${15 * (1 - introProgress)}px`;
-
-    intro.style.overflow =
-        "hidden";
+        /* Desktop: bunnblader */
+        botanicalBottom.style.position = "fixed";
+        botanicalBottom.style.left = "50%";
+        botanicalBottom.style.top = `${bottomStartTop}px`;
+        botanicalBottom.style.bottom = "auto";
+        botanicalBottom.style.transform = "translateX(-50%)";
+        botanicalBottom.style.zIndex = "99";
 
 
-    /* ========================================
-       VILDE & HÅVARD BLIR LITT MINDRE
-       ======================================== */
+        /* Desktop: RSVP */
+        rsvpLink.style.position = "fixed";
+        rsvpLink.style.left = "50%";
+        rsvpLink.style.transform = "translateX(-50%)";
+        rsvpLink.style.width = "100%";
+        rsvpLink.style.zIndex = "101";
+        rsvpLink.style.top = `${rsvpStartTop}px`;
+    }
 
-    const titleSize =
-        72 - progress * 16;
+/* ========================================
+   6. SCROLL- Mobil
+   ======================================== */
+function oppdaterMobilScroll() {
 
-    title.style.fontSize =
-        `${titleSize}px`;
+    /* Mobil HERO-POSISJON */
+
+        const scrollPosition = window.scrollY;
+        const progress = Math.min(scrollPosition / 80, 1);
+
+        const stopTop = nav.offsetHeight + 2;
+        const naturalTop = mobilStartTop - scrollPosition;
+        const currentTop = Math.max(stopTop, naturalTop);
+
+        heroContent.style.top = `${currentTop}px`;
+
+    
+    /* Mobil VI SKAL GIFTE OSS */
+
+        const introProgress = Math.min(progress * 2, 1);
+
+        intro.style.opacity = 1 - introProgress;
+        intro.style.height =
+            `${introHeight * (1 - introProgress)}px`;
+        intro.style.marginBottom =
+            `${15 * (1 - introProgress)}px`;
+        intro.style.overflow = "hidden";
 
 
-    /* ========================================
-       DATOEN BLIR LITT MINDRE
-       ======================================== */
-
-    const dateSize =
-        14 - progress * 3;
-
-    date.style.fontSize =
-        `${dateSize}px`;
+    /* Mobil VILDE & HÅVARD */
+        title.style.fontSize =
+            `${52 - progress * 8}px`;
 
 
-    /* ========================================
-       DATOEN TREKKES NÆRMERE NAVNET
-       ======================================== */
+    /* Mobil DATO */
+        date.style.marginTop =
+            `${20 - progress * 30}px`;
 
-    const dateGap =
-        25 - progress * 23;
+       
 
-    date.style.marginTop =
-        `${dateGap}px`;
+    /* Mobil TOPPBLADER */
+        const leafFadeDistance = 40;
+        const leafFadeProgress = Math.min(scrollPosition / leafFadeDistance, 1);
+
+        botanicalTop.style.transform =
+        `translate(-50%, ${progress * 140}px)`;
+
+        botanicalTop.style.opacity = 1 - leafFadeProgress;
+
+    /* Mobil BUNNBLADER */
+
+        const dateRect =
+        date.getBoundingClientRect();
+
+        const gap = 10;
+
+        botanicalBottom.style.top =
+        `${dateRect.bottom + gap}px`;
+
+    /* Mobil RSVP */
+        const bottomRect = botanicalBottom.getBoundingClientRect();
+        const rsvpGap = 2;
+
+        rsvpLink.style.top = `${bottomRect.bottom + rsvpGap}px`;
+
+    /* Mobil BAKGRUNN */
+        const heroBakgrunn = document.querySelector(".hero-bakgrunn");
+        const rsvpRect = rsvpLink.getBoundingClientRect();
+
+        heroBakgrunn.style.height = `${rsvpRect.bottom + 15}px`;
+    }
+
+
+/* ========================================
+   7. DESKTOP - SCROLL-EFFEKT
+   ======================================== */
+
+    function oppdaterScroll() {
+
+    /* Hvis skjermen er mobil: bruk mobilfunksjonen i stedet */
+        if (window.innerWidth <= 700) {
+            oppdaterMobilScroll();
+            return;
+        }
+
+    /* Desktop scroll progressjon fra 0-1, der 1 betyr at animasjonen er komplett */
+        const scrollPosition = window.scrollY;
+
+        const distance = effectDistance;
+
+        const progress =
+            Math.min(
+                scrollPosition / distance,
+                1
+            );
+
+
+
+   /* Desktop HERO-POSISJON OG STOPP */
+
+        const stopTop =
+            nav.offsetHeight + stopGap;
+
+        const naturalTop =
+            desktopStartTop - scrollPosition;
+
+        const currentTop =
+            Math.max(
+                stopTop, 
+                naturalTop
+            );
+
+        heroContent.style.top =
+            `${currentTop}px`;
+
+
+    /* Desktop - Vi skal gifte oss fader ut, blir mindre, justerer mellomrom under */
+
+        const introProgress =
+            Math.min(progress * 2, 1);
+
+        intro.style.opacity =
+            1 - introProgress;
+
+        intro.style.height =
+            `${introHeight * (1 - introProgress)}px`;
+
+        intro.style.marginBottom =
+            `${15 * (1 - introProgress)}px`;
+
+        intro.style.overflow =
+            "hidden";
+
+
+    /* Desktop VILDE & HÅVARD - størrelse på tekst, teksten blir mindre under scroll */
+
+        const titleStartSize =
+            Math.min(
+                100,
+                Math.max(
+                    30,
+                    window.innerWidth * 0.06
+                )
+            );
+
+        const titleSize =
+            titleStartSize -
+            progress * (titleStartSize * 0.22);
+
+        title.style.fontSize =
+            `${titleSize}px`;
+
+    /* Desktop DATO - Skriftstørrelse, avstand over og under */
+
+        const dateSize =
+            14 - progress * 3;
+
+        date.style.fontSize =
+            `${dateSize}px`;
+
+        const dateGap =
+            25 - progress * 23;
+
+        date.style.marginTop =
+            `${dateGap}px`;
+
+
+    /* Desktop TOPPBLADER - Bredde/størrelse, fade og bevegelse ut */
+
+        const leafMovement =
+            progress * 140;
+
+        botanicalTop.style.width = `${55 - progress * 25}%`;
+
+        botanicalTop.style.transform =
+        `translate(-50%, ${leafMovement}px)`;
+
+        botanicalTop.style.opacity =
+            1 - progress;
+
+
+    /* Desktop BUNNBLADER - Bredde/størrelse, fast avstand til dato: 10 px */
+
+        const bottomWidth =
+        55 - progress * 25;
+
+        botanicalBottom.style.width =
+            `${bottomWidth}%`;
+
+        const dateRect =
+            date.getBoundingClientRect();
+
+        const gap = 10;
+
+        botanicalBottom.style.top =
+            `${dateRect.bottom + gap}px`;
+
+    
+    /* Desktop RSVP - følger sin naturlige startposisjon, men ender rett under bunnbladene.*/
+
+        const bottomRect =
+            botanicalBottom.getBoundingClientRect();
+
+        const rsvpGap = 10;
+
+        rsvpLink.style.top =
+            `${bottomRect.bottom + rsvpGap}px`;
+
+    /* Desktop BAKGRUNN */
+
+        const heroBakgrunn = document.querySelector(".hero-bakgrunn");
+        const rsvpRect = rsvpLink.getBoundingClientRect();
+
+        heroBakgrunn.style.height = `${rsvpRect.bottom + 5}px`;
+
 }
 
-
 /* ========================================
-   START
+   8. START SCRIPT
    ======================================== */
 
-klargjorHeroTekst();
-oppdaterScroll();
+    if (window.innerWidth <= 700) {
+        klargjorMobilHero();
+    } 
+    else {
+        klargjorDesktopHero();
+    }
+
+    oppdaterScroll();
 
 
 /* ========================================
-   SCROLL
+   9. EVENT LISTNERS
    ======================================== */
+    /* Kjør scroll-funksjon når brukeren scroller  */
+        window.addEventListener(
+            "scroll",
+            oppdaterScroll
+        );
 
-window.addEventListener(
-    "scroll",
-    oppdaterScroll
-);
+    
+
+
